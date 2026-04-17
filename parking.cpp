@@ -250,7 +250,15 @@ int main() {
             std::cout << "Fila y Columna: ";
             std::cin >> i >> j;
 
-            if (mapa[i][j] == 'L' && parqueadero[i][j].ocupado == 0) {
+            if (mapa[i][j] != 'L') {
+    std::cout << "No hay lugar de parqueo aqui\n";
+}
+else if (parqueadero[i][j].ocupado == 1) {
+    std::cout << "Espacio ocupado\n";
+}
+else {
+    ingresarVehiculo(&parqueadero[i][j]);
+}
                 ingresarVehiculo(&parqueadero[i][j]);
             } else {
                 std::cout << "No disponible\n";

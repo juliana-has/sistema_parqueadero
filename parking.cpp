@@ -130,7 +130,7 @@ void ingresarVehiculo(Vehiculo *v) {
     copiarArreglo(v->placa, placa);
     v->horaEntrada = hora;
     v->ocupado = 1;
-    v->tipo = detev->tipo = detectarTipo(placa);
+    v->tipo = detectarTipo(placa);
 }
 
 // SALIDA

@@ -7,10 +7,13 @@ struct Vehiculo {
     char placa[10];
     int horaEntrada;
     int ocupado;
+    char tipo; // <-- agregado
+};
+
 Vehiculo parqueadero[FILAS][COLS];
 char mapa[FILAS][COLS];
 
-// Arreglo
+// COPIAR ARREGLO
 
 void copiarArreglo(char destino[], char origen[]) {
     int i = 0;
@@ -40,7 +43,7 @@ char detectarTipo(char placa[]) {
         return 'M';
 }
 
-// inicio
+// INICIO
 
 void inicio() {
     int i, j;
@@ -67,17 +70,19 @@ void inicio() {
 void mostrar_mapa() {
     int i, j;
 
-    std::cout << "\nPARQUEADERO\n\n";
-
     for (i = 0; i < FILAS; i++) {
         for (j = 0; j < COLS; j++) {
 
             if (mapa[i][j] == 'V') std::cout << "..";
             else if (mapa[i][j] == 'L') {
-                if (parqueadero[i][j].ocupado == 1)
-                    std::cout << "XX";
-                else
+                if (parqueadero[i][j].ocupado == 1) {
+                    if (parqueadero[i][j].tipo == 'C')
+                        std::cout << "CC";
+                    else
+                        std::cout << "MM";
+                } else {
                     std::cout << "[]";
+                }
             }
             else if (mapa[i][j] == 'E') std::cout << "EN";
             else if (mapa[i][j] == 'S') std::cout << "SA";
@@ -85,10 +90,10 @@ void mostrar_mapa() {
         std::cout << std::endl;
     }
 
-    std::cout << "\n[] Libre  XX Ocupado\n\n";
+    std::cout << "\n[] Libre  CC Carro  MM Moto\n\n";
 }
 
-// entra vehiculo
+// INGRESo de vehiculo
 
 void ingresarVehiculo(Vehiculo *v) {
     char placa[10];
@@ -100,31 +105,33 @@ void ingresarVehiculo(Vehiculo *v) {
     std::cout << "Hora entrada: ";
     std::cin >> hora;
 
-    copiarCadena(v->placa, placa);
+    copiarArreglo(v->placa, placa);
     v->horaEntrada = hora;
     v->ocupado = 1;
+    v->tipo = detev->tipo = detectarTipo(placa);
 }
-// SALIDA
 
+// SALIDA
 
 void SALEVehiculo(Vehiculo *v) {
     v->ocupado = 0;
     v->placa[0] = '\0';
 }
 
-
-// PAGO
+//PAGO
 
 int calcularPago(int entrada, int salida, char tipo) {
-    int tiempo = salida - entrada; // en horas
+    int tiempo = salida - entrada;
 
     if (tipo == 'C')
-        return tiempo * 60 * 80; // carro: 80 por minuto
+        return tiempo * 60 * 80;
     else
-        return tiempo * 60 * 75; // moto: 75 por minuto
+        return tiempo * 60 * 75;
 }
 
 
+
+// MAIN
 
 
 int main() {
@@ -138,10 +145,6 @@ int main() {
         std::cin >> opcion;
 
         if (opcion == 1) {
-            mostrar_mapa();
-        }
-
-        else if (opcion == 2) {
             std::cout << "Fila Columna: ";
             std::cin >> i >> j;
 
@@ -152,6 +155,10 @@ int main() {
             }
         }
 
+        else if (opcion == 2) {
+            mostrar_mapa();
+        }
+
         else if (opcion == 3) {
             std::cout << "Fila Columna: ";
             std::cin >> i >> j;
@@ -159,12 +166,14 @@ int main() {
             if (parqueadero[i][j].ocupado == 1) {
                 std::cout << "Hora salida: ";
                 std::cin >> salida;
-               
-       pago = calcularPago(
-            parqueadero[i][j].horaEntrada,
-            salida,
-           parqueadero[i][j].tipo
-       );
+
+                pago = calcularPago(
+                    parqueadero[i][j].horaEntrada,
+                    salida,
+                    parqueadero[i][j].tipo
+                );
+
+                std::cout << "Pago: " << pago << std::endl;
 
                 SALEVehiculo(&parqueadero[i][j]);
             } else {

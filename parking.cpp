@@ -87,3 +87,63 @@ void ingresarVehiculo(Vehiculo *v) {
     v->horaEntrada = hora;
     v->ocupado = 1;
 }
+// SALIDA
+
+
+void SALEVehiculo(Vehiculo *v) {
+    v->ocupado = 0;
+    v->placa[0] = '\0';
+}
+
+
+// PAGO
+
+int calcularPago(int entrada, int salida) {
+    return (salida - entrada) * 1000;
+}
+int main() {
+    int opcion, i, j, salida, pago;
+
+    inicio();
+
+    do {
+        std::cout << "\n1. Mostrar\n2. Ingresar\n3. Retirar\n4. Salir\n";
+        std::cout << "Opcion: ";
+        std::cin >> opcion;
+
+        if (opcion == 1) {
+            mostrar_mapa();
+        }
+
+        else if (opcion == 2) {
+            std::cout << "Fila Columna: ";
+            std::cin >> i >> j;
+
+            if (mapa[i][j] == 'L' && parqueadero[i][j].ocupado == 0) {
+                ingresarVehiculo(&parqueadero[i][j]);
+            } else {
+                std::cout << "No disponible\n";
+            }
+        }
+
+        else if (opcion == 3) {
+            std::cout << "Fila Columna: ";
+            std::cin >> i >> j;
+
+            if (parqueadero[i][j].ocupado == 1) {
+                std::cout << "Hora salida: ";
+                std::cin >> salida;
+
+                pago = calcularPago(parqueadero[i][j].horaEntrada, salida);
+                std::cout << "Pago: " << pago << std::endl;
+
+                SALEVehiculo(&parqueadero[i][j]);
+            } else {
+                std::cout << "No hay vehiculo\n";
+            }
+        }
+
+    } while (opcion != 4);
+
+    return 0;
+}

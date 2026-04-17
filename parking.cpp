@@ -50,21 +50,43 @@ void inicio() {
 
     for (i = 0; i < FILAS; i++) {
         for (j = 0; j < COLS; j++) {
+
             parqueadero[i][j].ocupado = 0;
             parqueadero[i][j].placa[0] = '\0';
 
-            if (i == 0 && j == 0)
+            // PAREDES
+            if (i == 0 || i == FILAS - 1 || j == 0 || j == COLS - 1) {
+                mapa[i][j] = 'W';
+            }
+
+            // ENTRADA
+            else if (i == 1 && j == 1) {
                 mapa[i][j] = 'E';
-            else if (i == FILAS - 1 && j == COLS - 1)
+            }
+
+            // SALIDA
+            else if (i == 1 && j == COLS - 2) {
                 mapa[i][j] = 'S';
-            else if (i % 2 == 0)
+            }
+
+            // VÍAS VERTICALES
+            else if (j % 3 == 0) {
                 mapa[i][j] = 'V';
-            else
+            }
+
+            // VÍAS HORIZONTALES
+            else if (i % 2 == 0) {
+                mapa[i][j] = 'V';
+            }
+
+            // PARQUEO
+            else {
                 mapa[i][j] = 'L';
+            }
         }
     }
 }
-
+    
 // MOSTRAR MAPA
 
 void mostrar_mapa() {

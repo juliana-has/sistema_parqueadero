@@ -22,3 +22,25 @@ void copiarArreglo(char destino[], char origen[]) {
 
     destino[i] = '\0';
 }
+
+// inicio
+
+void inicio() {
+    int i, j;
+
+    for (i = 0; i < FILAS; i++) {
+        for (j = 0; j < COLS; j++) {
+            parqueadero[i][j].ocupado = 0;
+            parqueadero[i][j].placa[0] = '\0';
+
+            if (i == 0 && j == 0)
+                mapa[i][j] = 'E';
+            else if (i == FILAS - 1 && j == COLS - 1)
+                mapa[i][j] = 'S';
+            else if (i % 2 == 0)
+                mapa[i][j] = 'V';
+            else
+                mapa[i][j] = 'L';
+        }
+    }
+}

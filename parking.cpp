@@ -107,7 +107,7 @@ int main() {
     inicio();
 
     do {
-        std::cout << "\n1. Mostrar\n2. Ingresar\n3. Retirar\n4. Salir\n";
+        std::cout << "\n1. Ingresar\n2. Mostrar\n3. Retirar\n4. Salir\n";
         std::cout << "Opcion: ";
         std::cin >> opcion;
 

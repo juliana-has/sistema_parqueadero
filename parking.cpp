@@ -120,10 +120,16 @@ void mostrar_mapa() {
 void ingresarVehiculo(Vehiculo *v) {
     char placa[10];
     int hora;
-
+    
+   do {
     std::cout << "Placa: ";
     std::cin >> placa;
 
+    if (!placaValida(placa)) {
+        std::cout << "Placa invalida. Intente de nuevo.\n";
+    }
+
+} while (!placaValida(placa));
     std::cout << "Hora entrada: ";
     std::cin >> hora;
 

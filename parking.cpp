@@ -3,7 +3,6 @@
 #define FILAS 16
 #define COLS 16
 
-// ESTRUCTURA VEHICULO
 struct Vehiculo {
     char placa[10];
     int horaEntrada;
@@ -11,7 +10,6 @@ struct Vehiculo {
     char tipo; // C = carro, M = moto
 };
 
-// MATRICES
 Vehiculo parqueadero[FILAS][COLS];
 char mapa[FILAS][COLS];
 
@@ -26,6 +24,7 @@ void copiarArreglo(char destino[], char origen[]) {
 }
 
 // DETECTAR TIPO (carro o moto)
+
 char detectarTipo(char placa[]) {
     int i = 0;
     while (placa[i] != '\0') i++;
@@ -147,8 +146,7 @@ int buscarVehiculo(char placa[], int *fila, int *col) {
 
                 k = 0;
                 igual = 1;
-
-                // comparar cadenas
+                
                 while (placa[k] != '\0' && parqueadero[i][j].placa[k] != '\0') {
                     if (placa[k] != parqueadero[i][j].placa[k]) {
                         igual = 0;
@@ -281,8 +279,7 @@ int main() {
         else if (opcion == 2) {
             mostrar_mapa();
         }
-
-        // RETIRAR
+ // RETIRAR
         else if (opcion == 3) {
             char placaBuscar[10];
 
@@ -318,7 +315,7 @@ int main() {
             }
         }
 
-        // BUSCAR SIN RETIRAR
+// BUSCAR
         else if (opcion == 4) {
             char placaBuscar[10];
 

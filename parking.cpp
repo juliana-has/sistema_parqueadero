@@ -115,6 +115,37 @@ void mostrar_mapa() {
     std::cout << "\n[] Libre  C Carro  M Moto\n\n";
 }
 
+
+int longitud(char placa[]) {
+    int i = 0;
+    while (placa[i] != '\0') i++;
+    return i;
+}
+
+int esLetra(char c) {
+    return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+}
+
+int esNumero(char c) {
+    return (c >= '0' && c <= '9');
+}
+
+int placaValida(char placa[]) {
+    int i = 0;
+    int tieneLetra = 0;
+    int tieneNumero = 0;
+
+    if (longitud(placa) < 6) return 0;
+
+    while (placa[i] != '\0') {
+        if (esLetra(placa[i])) tieneLetra = 1;
+        else if (esNumero(placa[i])) tieneNumero = 1;
+        else return 0;
+        i++;
+    }
+
+    return tieneLetra && tieneNumero;
+}
 // INGRESo de vehiculo
 
 void ingresarVehiculo(Vehiculo *v) {

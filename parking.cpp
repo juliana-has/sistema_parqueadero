@@ -216,7 +216,7 @@ int main() {
         std::cin >> opcion;
 
         if (opcion == 1) {
-            std::cout << "Fila Columna: ";
+            std::cout << "Fila y Columna: ";
             std::cin >> i >> j;
 
             if (mapa[i][j] == 'L' && parqueadero[i][j].ocupado == 0) {
@@ -256,24 +256,6 @@ int main() {
         std::cout << "Vehiculo no encontrado\n";
     }
 }
-
-            if (parqueadero[i][j].ocupado == 1) {
-                std::cout << "Hora salida: ";
-                std::cin >> salida;
-
-                pago = calcularPago(
-                    parqueadero[i][j].horaEntrada,
-                    salida,
-                    parqueadero[i][j].tipo
-                );
-
-                std::cout << "Pago: " << pago << std::endl;
-
-                SALEVehiculo(&parqueadero[i][j]);
-            } else {
-                std::cout << "No hay vehiculo\n";
-            }
-        }
 
     } while (opcion != 4);
 

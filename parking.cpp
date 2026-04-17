@@ -44,3 +44,30 @@ void inicio() {
         }
     }
 }
+
+// MOSTRAR MAPA
+
+void mostrar_mapa() {
+    int i, j;
+
+    std::cout << "\nPARQUEADERO\n\n";
+
+    for (i = 0; i < FILAS; i++) {
+        for (j = 0; j < COLS; j++) {
+
+            if (mapa[i][j] == 'V') std::cout << "..";
+            else if (mapa[i][j] == 'L') {
+                if (parqueadero[i][j].ocupado == 1)
+                    std::cout << "XX";
+                else
+                    std::cout << "[]";
+            }
+            else if (mapa[i][j] == 'E') std::cout << "EN";
+            else if (mapa[i][j] == 'S') std::cout << "SA";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "\n[] Libre  XX Ocupado\n\n";
+}
+

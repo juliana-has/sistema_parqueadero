@@ -99,9 +99,9 @@ void mostrar_mapa() {
             else if (mapa[i][j] == 'L') {
                 if (parqueadero[i][j].ocupado == 1) {
                     if (parqueadero[i][j].tipo == 'C')
-                        std::cout << "CC";
+                        std::cout << "C";
                     else
-                        std::cout << "MM";
+                        std::cout << "M";
                 } else {
                     std::cout << "[]";
                 }
@@ -112,7 +112,7 @@ void mostrar_mapa() {
         std::cout << std::endl;
     }
 
-    std::cout << "\n[] Libre  CC Carro  MM Moto\n\n";
+    std::cout << "\n[] Libre  C Carro  M Moto\n\n";
 }
 
 // INGRESo de vehiculo

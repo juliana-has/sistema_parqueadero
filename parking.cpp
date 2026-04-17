@@ -181,6 +181,23 @@ void ingresarVehiculo(Vehiculo *v) {
     v->tipo = detectarTipo(placa);
 }
 
+//asigna automaticamente el espacio
+int asignarEspacio(int *fila, int *col) {
+    int i, j;
+
+    for (i = 0; i < FILAS; i++) {
+        for (j = 0; j < COLS; j++) {
+
+            if (mapa[i][j] == 'L' && parqueadero[i][j].ocupado == 0) {
+                *fila = i;
+                *col = j;
+                return 1; // encontrado
+            }
+        }
+    }
+
+    return 0; // lleno
+}
 // SALIDA
 
 void SALEVehiculo(Vehiculo *v) {
@@ -247,24 +264,15 @@ int main() {
         std::cin >> opcion;
 
         if (opcion == 1) {
-            std::cout << "Fila y Columna: ";
-            std::cin >> i >> j;
+  if (asignarEspacio(&i, &j)) {
 
-            if (mapa[i][j] != 'L') {
-    std::cout << "No hay lugar de parqueo aqui\n";
-}
-else if (parqueadero[i][j].ocupado == 1) {
-    std::cout << "Espacio ocupado\n";
-}
-else {
+    std::cout << "Espacio asignado en [" << i << "][" << j << "]\n";
+
     ingresarVehiculo(&parqueadero[i][j]);
-}
-                ingresarVehiculo(&parqueadero[i][j]);
-            } else {
-                std::cout << "No disponible\n";
-            }
-        }
 
+} else {
+    std::cout << "Parqueadero lleno\n";
+}
         else if (opcion == 2) {
             mostrar_mapa();
         }
@@ -273,23 +281,29 @@ else {
 
     char placaBuscar[10];
 
-    std::cout << "Placa: ";
-    std::cin >> placaBuscar;
+std::cout << "Vehiculo encontrado en [" << i << "][" << j << "]\n";
+            
+if (parqueadero[i][j].tipo == 'C')
+    std::cout << "Tipo: Carro\n";
+else
+    std::cout << "Tipo: Moto\n";
+std::cout << "Hora de entrada: " << parqueadero[i][j].horaEntrada << std::endl;
+std::cout << "Hora salida: ";
+std::cin >> salida;
 
-    if (buscarVehiculo(placaBuscar, &i, &j)) {
+int tiempo = salida - parqueadero[i][j].horaEntrada;
+std::cout << "Tiempo parqueado: " << tiempo << " horas\n";
 
-        std::cout << "Hora salida: ";
-        std::cin >> salida;
+pago = calcularPago(
+    parqueadero[i][j].horaEntrada,
+    salida,
+    parqueadero[i][j].tipo
+);
 
-        pago = calcularPago(
-            parqueadero[i][j].horaEntrada,
-            salida,
-            parqueadero[i][j].tipo
-        );
+std::cout << "Pago total: " << pago << std::endl;
 
-        std::cout << "Pago: " << pago << std::endl;
-
-        SALEVehiculo(&parqueadero[i][j]);
+// Sacar vehículo
+SALEVehiculo(&parqueadero[i][j]);
 
     } else {
         std::cout << "Vehiculo no encontrado\n";

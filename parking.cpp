@@ -71,3 +71,19 @@ void mostrar_mapa() {
     std::cout << "\n[] Libre  XX Ocupado\n\n";
 }
 
+// entra vehiculo
+
+void ingresarVehiculo(Vehiculo *v) {
+    char placa[10];
+    int hora;
+
+    std::cout << "Placa: ";
+    std::cin >> placa;
+
+    std::cout << "Hora entrada: ";
+    std::cin >> hora;
+
+    copiarCadena(v->placa, placa);
+    v->horaEntrada = hora;
+    v->ocupado = 1;
+}

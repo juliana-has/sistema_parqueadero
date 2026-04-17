@@ -114,7 +114,7 @@ void mostrar_mapa() {
 
     std::cout << "\n[] Libre  C Carro  M Moto\n\n";
 }
-
+// VALIDACION 
 
 int longitud(char placa[]) {
     int i = 0;
@@ -135,8 +135,8 @@ int placaValida(char placa[]) {
     int tieneLetra = 0;
     int tieneNumero = 0;
 
-    if (longitud(placa) < 6) return 0;
-
+    if (longitud(placa) != 6) return 0;
+    
     while (placa[i] != '\0') {
         if (esLetra(placa[i])) tieneLetra = 1;
         else if (esNumero(placa[i])) tieneNumero = 1;

@@ -23,6 +23,23 @@ void copiarArreglo(char destino[], char origen[]) {
     destino[i] = '\0';
 }
 
+// DETECTAR TIPO
+
+char detectarTipo(char placa[]) {
+    int i = 0;
+
+    while (placa[i] != '\0') {
+        i++;
+    }
+
+    char ultimo = placa[i - 1];
+
+    if (ultimo >= '0' && ultimo <= '9')
+        return 'C';
+    else
+        return 'M';
+}
+
 // inicio
 
 void inicio() {
@@ -98,9 +115,18 @@ void SALEVehiculo(Vehiculo *v) {
 
 // PAGO
 
-int calcularPago(int entrada, int salida) {
-    return (salida - entrada) * 1000;
+int calcularPago(int entrada, int salida, char tipo) {
+    int tiempo = salida - entrada; // en horas
+
+    if (tipo == 'C')
+        return tiempo * 60 * 80; // carro: 80 por minuto
+    else
+        return tiempo * 60 * 75; // moto: 75 por minuto
 }
+
+
+
+
 int main() {
     int opcion, i, j, salida, pago;
 
@@ -133,9 +159,12 @@ int main() {
             if (parqueadero[i][j].ocupado == 1) {
                 std::cout << "Hora salida: ";
                 std::cin >> salida;
-
-                pago = calcularPago(parqueadero[i][j].horaEntrada, salida);
-                std::cout << "Pago: " << pago << std::endl;
+               
+       pago = calcularPago(
+            parqueadero[i][j].horaEntrada,
+            salida,
+           parqueadero[i][j].tipo
+       );
 
                 SALEVehiculo(&parqueadero[i][j]);
             } else {

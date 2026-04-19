@@ -2,7 +2,7 @@
 
 #define FILAS 16
 #define COLS 16
-#define MAX_HIST 100 //maximo historial que se puede guardar
+#define MAX_HIST 100
 
 struct Vehiculo {
     char placa[10];
@@ -21,6 +21,7 @@ char mapa[FILAS][COLS];
 
 Registro historial[MAX_HIST];
 int totalHist = 0;
+int indiceHist = 0;
 
 // COPIAR
 void copiarArreglo(char d[], char o[]) {
@@ -65,7 +66,7 @@ void mostrarRuta(int fi,int co){
     std::cout<<" ["<<fi<<","<<co<<"]\n";
 }
 
-// MAPA BONITO
+// MAPA 
 void mostrar_mapa(int hora){
     std::cout<<"\n========= PARQUEADERO =========\n\n";
 
@@ -87,7 +88,7 @@ void mostrar_mapa(int hora){
         std::cout<<"\n";
     }
 
-    std::cout<<"\nLeyenda: c libre carro | m libre moto | C ocupado carro | M ocupado moto\n";
+    std::cout<<"\nLeyenda: c libre | m libre | C carro | M moto\n";
 }
 
 // VALIDACION
@@ -155,30 +156,39 @@ int asignar(int *fi,int *co,char tipo){
     return 0;
 }
 
-// TARIFA INTELIGENTE
+// TARIFA
 int calcularPago(int e,int s,char tipo){
     int t=(s>=e)?(s-e):(24-e+s);
 
     int tarifa=(tipo=='C')?80:75;
 
-    if(t>5) tarifa-=10; // descuento
+    if(t>5) tarifa-=10;
 
     return t*tarifa;
 }
 
-// HISTORIAL
-void guardarHist(char placa[],int pago){
-    if(totalHist<MAX_HIST){
-        copiarArreglo(historial[totalHist].placa,placa);
-        historial[totalHist].pago=pago;
+// HISTORIAL (CIRCULAR)
+void guardarHist(char placa[], int pago) {
+
+    copiarArreglo(historial[indiceHist].placa, placa);
+    historial[indiceHist].pago = pago;
+
+    indiceHist = (indiceHist + 1) % MAX_HIST;
+
+    if (totalHist < MAX_HIST)
         totalHist++;
-    }
 }
 
-void mostrarHist(){
-    std::cout<<"\n====== HISTORIAL ======\n";
-    for(int i=0;i<totalHist;i++){
-        std::cout<<historial[i].placa<<" - $"<<historial[i].pago<<"\n";
+void mostrarHist() {
+    std::cout << "\n====== HISTORIAL ======\n";
+
+    int inicio = (totalHist == MAX_HIST) ? indiceHist : 0;
+
+    for (int i = 0; i < totalHist; i++) {
+        int pos = (inicio + i) % MAX_HIST;
+
+        std::cout << historial[pos].placa
+                  << " - $" << historial[pos].pago << "\n";
     }
 }
 
@@ -231,6 +241,12 @@ int main(){
             if(buscarVehiculo(placa,&i,&j)){
                 std::cout<<"Hora salida: ";
                 std::cin>>salida;
+
+                // VALIDACION 
+                if (salida < 0 || salida > 23) {
+                    std::cout << "Hora invalida\n";
+                    continue;
+                }
 
                 pago=calcularPago(
                     parqueadero[i][j].horaEntrada,

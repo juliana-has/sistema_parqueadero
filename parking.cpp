@@ -123,7 +123,7 @@ void mostrar_mapa(int horaActual) {
     }
 }
 
-// FUNCIONES AUXILIARES
+// validacion de placa
 int longitud(char placa[]) {
     int i = 0;
     while (placa[i] != '\0') i++;

@@ -329,12 +329,15 @@ int main() {
         std::cin >> opcion;
 
         if (opcion == 1) {
-            if (asignarEspacio(&i, &j)) {
-                std::cout << "Espacio asignado en [" << i << "][" << j << "]\n";
-                ingresarVehiculo(&parqueadero[i][j]);
-            } else {
-                std::cout << "Parqueadero lleno\n";
-            }
+        Vehiculo temp;
+ingresarVehiculo(&temp);
+
+if (asignarEspacio(&i, &j, temp.tipo)) {
+    parqueadero[i][j] = temp;
+    std::cout << "Espacio asignado en [" << i << "][" << j << "]\n";
+} else {
+    std::cout << "No hay espacio disponible para ese tipo\n";
+}
         }
 
         else if (opcion == 2) {

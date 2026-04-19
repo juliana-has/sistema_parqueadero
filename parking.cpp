@@ -98,7 +98,6 @@ void mostrar_mapa(int horaActual) {
     std::cout << "\n[] Libre  C Carro  M Moto\n";
 
     // LISTA
-   // LISTA
 std::cout << "\n--- LISTA DE VEHICULOS ---\n";
 
 int hayVehiculos = 0;

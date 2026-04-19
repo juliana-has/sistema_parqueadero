@@ -115,7 +115,7 @@ void mostrar_mapa(int hora){
         std::cout<<"\n";
     }
 
-    std::cout<<"\nLeyenda:\n";
+    std::cout<<"\nque es?:\n";
     std::cout<<" c  = carro libre\n";
     std::cout<<" m  = moto libre\n";
     std::cout<<"[C] = carro ocupado\n";

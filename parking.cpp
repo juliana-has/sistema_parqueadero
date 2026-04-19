@@ -38,7 +38,7 @@ char detectarTipo(char placa[]) {
     int i = 0;
     while (placa[i] != '\0') i++;
 
-    if(i == 0) return 'C'; // seguridad
+    if(i == 0) return 'C'; 
 
     return (placa[i-1] >= '0' && placa[i-1] <= '9') ? 'C' : 'M';
 }

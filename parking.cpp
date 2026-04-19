@@ -149,10 +149,12 @@ int placaValida(char p[]){
     if(p[5]<'0'||p[5]>'9') return 0;
 
     return 1;
-}
-if(!placaValida(placa)){
+    
+    if(!placaValida(placa)){
     std::cout<<"Placa invalida. Formato: ABC123\n";
 }
+}
+
 // BUSCAR
 int buscarVehiculo(char placa[], int *fi,int *co){
     for(int i=0;i<FILAS;i++){

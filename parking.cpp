@@ -130,16 +130,29 @@ void mostrar_mapa(int hora){
 }
 
 // VALIDACION
+int longitud(char p[]){
+    int i=0;
+    while(p[i] != '\0') i++;
+    return i;
+}
+
 int placaValida(char p[]){
+
+    if(longitud(p) != 6) return 0; // 🔥 CLAVE
+
     if(p[0]<'A'||p[0]>'Z') return 0;
     if(p[1]<'A'||p[1]>'Z') return 0;
     if(p[2]<'A'||p[2]>'Z') return 0;
+
     if(p[3]<'0'||p[3]>'9') return 0;
     if(p[4]<'0'||p[4]>'9') return 0;
     if(p[5]<'0'||p[5]>'9') return 0;
+
     return 1;
 }
-
+if(!placaValida(placa)){
+    std::cout<<"Placa invalida. Formato: ABC123\n";
+}
 // BUSCAR
 int buscarVehiculo(char placa[], int *fi,int *co){
     for(int i=0;i<FILAS;i++){
@@ -173,13 +186,20 @@ void ingresarVehiculo(Vehiculo *v){
         std::cout<<"Placa (ABC123): ";
         std::cin>>placa;
 
-        int fi,co;
-        if(buscarVehiculo(placa,&fi,&co)){
-            std::cout<<"Esa placa ya existe\n";
+        if(!placaValida(placa)){
+            std::cout<<"Placa invalida. Formato correcto: ABC123\n";
             continue;
         }
 
-    }while(!placaValida(placa));
+        int fi,co;
+        if(buscarVehiculo(placa,&fi,&co)){
+            std::cout<<"Esa placa ya esta registrada\n";
+            continue;
+        }
+
+        break; 
+
+    }while(true);
 
     do{
         std::cout<<"Hora entrada: ";
@@ -191,7 +211,6 @@ void ingresarVehiculo(Vehiculo *v){
     v->ocupado=1;
     v->tipo=detectarTipo(placa);
 }
-
 // ASIGNAR
 int asignar(int *fi,int *co,char tipo){
     for(int i=0;i<FILAS;i++){

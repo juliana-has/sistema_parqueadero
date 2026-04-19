@@ -37,6 +37,9 @@ void copiarArreglo(char d[], char o[]) {
 char detectarTipo(char placa[]) {
     int i = 0;
     while (placa[i] != '\0') i++;
+
+    if(i == 0) return 'C'; // seguridad
+
     return (placa[i-1] >= '0' && placa[i-1] <= '9') ? 'C' : 'M';
 }
 
@@ -50,7 +53,7 @@ void inicio() {
             if(i==0 && j==1) mapa[i][j]='E';
             else if(i==0 && j==COLS-2) mapa[i][j]='S';
             else if(i==0||i==FILAS-1||j==0||j==COLS-1)
-            mapa[i][j]='W';
+                mapa[i][j]='W';
             else if(j%3==0||i%2==0) mapa[i][j]='V';
             else mapa[i][j]=(i+j)%2==0?'C':'M';
         }
@@ -61,8 +64,8 @@ void inicio() {
 void mostrarRuta(int fi,int co){
     std::cout<<"\nRuta aproximada:\n";
     std::cout<<"ENTRADA -> ";
-   for(int j=1;j<=co;j++) std::cout<<"->";
-for(int i=1;i<=fi;i++) std::cout<<"V";
+    for(int j=1;j<=co;j++) std::cout<<"->";
+    for(int i=1;i<=fi;i++) std::cout<<"v";
     std::cout<<" ["<<fi<<","<<co<<"]\n";
 }
 
@@ -76,7 +79,6 @@ void mostrar_mapa(int hora){
 
     std::cout<<"\n========= PARQUEADERO =========\n\n";
 
-    // COLUMNAS
     std::cout<<"    ";
     for(int j=0;j<COLS;j++){
         if(j<10) std::cout<<" "<<j<<" ";
@@ -86,21 +88,15 @@ void mostrar_mapa(int hora){
 
     for(int i=0;i<FILAS;i++){
 
-        // FILAS
         if(i<10) std::cout<<" "<<i<<"  ";
         else std::cout<<i<<"  ";
 
         for(int j=0;j<COLS;j++){
 
-            // TODO ocupa 3 espacios
             if(mapa[i][j]=='W') std::cout<<"###";
-
             else if(mapa[i][j]=='V') std::cout<<"   ";
-
             else if(mapa[i][j]=='E') std::cout<<" EN ";
-
             else if(mapa[i][j]=='S') std::cout<<" SA ";
-
             else {
                 if(parqueadero[i][j].ocupado){
                     if(parqueadero[i][j].tipo=='C')
@@ -116,11 +112,10 @@ void mostrar_mapa(int hora){
                 }
             }
         }
-
         std::cout<<"\n";
     }
 
-    std::cout<<"\nque es?:\n";
+    std::cout<<"\nLeyenda:\n";
     std::cout<<" c  = carro libre\n";
     std::cout<<" m  = moto libre\n";
     std::cout<<"[C] = carro ocupado\n";
@@ -149,10 +144,6 @@ int placaValida(char p[]){
     if(p[5]<'0'||p[5]>'9') return 0;
 
     return 1;
-    
-    if(!placaValida(placa)){
-    std::cout<<"Placa invalida. Formato: ABC123\n";
-}
 }
 
 // BUSCAR
@@ -213,6 +204,7 @@ void ingresarVehiculo(Vehiculo *v){
     v->ocupado=1;
     v->tipo=detectarTipo(placa);
 }
+
 // ASIGNAR
 int asignar(int *fi,int *co,char tipo){
     for(int i=0;i<FILAS;i++){

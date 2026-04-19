@@ -45,6 +45,7 @@ void inicio() {
     for (int i=0;i<FILAS;i++){
         for (int j=0;j<COLS;j++){
             parqueadero[i][j].ocupado=0;
+            parqueadero[i][j].placa[0]='\0';
 
             if(i==0||i==FILAS-1||j==0||j==COLS-1) mapa[i][j]='W';
             else if(i==1&&j==1) mapa[i][j]='E';
@@ -55,33 +56,33 @@ void inicio() {
     }
 }
 
-// RUTA VISUAL
+// RUTA
 void mostrarRuta(int fi,int co){
     std::cout<<"\nRuta aproximada:\n";
     std::cout<<"ENTRADA -> ";
-
-    for(int j=1;j<=co;j++) std::cout<<"→";
-    for(int i=1;i<=fi;i++) std::cout<<"↓";
-
+    for(int j=1;j<=co;j++) std::cout<<"->";
+    for(int i=1;i<=fi;i++) std::cout<<"v";
     std::cout<<" ["<<fi<<","<<co<<"]\n";
 }
 
-// MAPA 
+// MAPA
 void mostrar_mapa(int hora){
+
+    if(hora < 0 || hora > 23){
+        std::cout<<"Hora invalida\n";
+        return;
+    }
+
     std::cout<<"\n========= PARQUEADERO =========\n\n";
 
-    // NUMEROS DE COLUMNAS
     std::cout<<"   ";
     for(int j=0;j<COLS;j++) std::cout<<j%10<<"  ";
     std::cout<<"\n";
 
     for(int i=0;i<FILAS;i++){
 
-        // NUMERO DE FILA
         if(i<10) std::cout<<" "<<i<<" ";
         else std::cout<<i<<" ";
-
-        std::cout<<"||";
 
         for(int j=0;j<COLS;j++){
 
@@ -105,18 +106,16 @@ void mostrar_mapa(int hora){
                 }
             }
         }
-
-        std::cout<<"||\n";
+        std::cout<<"\n";
     }
 
-    std::cout<<"\n=========== LISTA ===========\n";
+    std::cout<<"\nLeyenda:\n";
     std::cout<<" c  = libre carro\n";
     std::cout<<" m  = libre moto\n";
     std::cout<<"[C] = carro ocupado\n";
     std::cout<<"[M] = moto ocupada\n";
-    std::cout<<"##  = muro\n";
-    std::cout<<"EN  = entrada | SA = salida\n";
 }
+
 // VALIDACION
 int placaValida(char p[]){
     if(p[0]<'A'||p[0]>'Z') return 0;
@@ -133,13 +132,18 @@ int buscarVehiculo(char placa[], int *fi,int *co){
     for(int i=0;i<FILAS;i++){
         for(int j=0;j<COLS;j++){
             if(parqueadero[i][j].ocupado){
+
                 int k=0,igual=1;
-                while(placa[k]||parqueadero[i][j].placa[k]){
+
+                while(placa[k] && parqueadero[i][j].placa[k]){
                     if(placa[k]!=parqueadero[i][j].placa[k]){
                         igual=0; break;
                     }
                     k++;
                 }
+
+                if(placa[k]!=parqueadero[i][j].placa[k]) igual=0;
+
                 if(igual){*fi=i;*co=j;return 1;}
             }
         }
@@ -155,6 +159,13 @@ void ingresarVehiculo(Vehiculo *v){
     do{
         std::cout<<"Placa (ABC123): ";
         std::cin>>placa;
+
+        int fi,co;
+        if(buscarVehiculo(placa,&fi,&co)){
+            std::cout<<"Esa placa ya existe\n";
+            continue;
+        }
+
     }while(!placaValida(placa));
 
     do{
@@ -193,9 +204,8 @@ int calcularPago(int e,int s,char tipo){
     return t*tarifa;
 }
 
-// HISTORIAL (CIRCULAR)
+// HISTORIAL
 void guardarHist(char placa[], int pago) {
-
     copiarArreglo(historial[indiceHist].placa, placa);
     historial[indiceHist].pago = pago;
 
@@ -207,6 +217,11 @@ void guardarHist(char placa[], int pago) {
 
 void mostrarHist() {
     std::cout << "\n====== HISTORIAL ======\n";
+
+    if(totalHist == 0){
+        std::cout<<"No hay registros\n";
+        return;
+    }
 
     int inicio = (totalHist == MAX_HIST) ? indiceHist : 0;
 
@@ -221,6 +236,7 @@ void mostrarHist() {
 // SALIDA
 void salidaVehiculo(Vehiculo *v){
     v->ocupado=0;
+    v->placa[0]='\0';
 }
 
 // MAIN
@@ -231,11 +247,7 @@ int main(){
 
     do{
         std::cout<<"\n=========== MENU ===========\n";
-        std::cout<<"1. Ingresar\n";
-        std::cout<<"2. Mostrar mapa\n";
-        std::cout<<"3. Retirar\n";
-        std::cout<<"4. Historial\n";
-        std::cout<<"5. Salir\n";
+        std::cout<<"1. Ingresar\n2. Mostrar mapa\n3. Retirar\n4. Historial\n5. Salir\n";
         std::cout<<"Opcion: ";
         std::cin>>op;
 
@@ -268,7 +280,6 @@ int main(){
                 std::cout<<"Hora salida: ";
                 std::cin>>salida;
 
-                // VALIDACION 
                 if (salida < 0 || salida > 23) {
                     std::cout << "Hora invalida\n";
                     continue;
@@ -284,6 +295,8 @@ int main(){
 
                 guardarHist(placa,pago);
                 salidaVehiculo(&parqueadero[i][j]);
+            }else{
+                std::cout<<"No encontrado\n";
             }
         }
 

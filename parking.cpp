@@ -80,8 +80,21 @@ void mostrar_mapa(int horaActual) {
 
             if (mapa[i][j] == 'V') std::cout << "..";
 
-            else if (mapa[i][j] == 'L') {
-                if (parqueadero[i][j].ocupado == 1) {
+          else if (mapa[i][j] == 'C' || mapa[i][j] == 'M') {
+    if (parqueadero[i][j].ocupado == 1) {
+
+        if (parqueadero[i][j].tipo == 'C')
+            std::cout << "C ";
+        else
+            std::cout << "M ";
+
+    } else {
+        if (mapa[i][j] == 'C')
+            std::cout << "c ";
+        else
+            std::cout << "m ";
+    }
+}
 
                     if (parqueadero[i][j].tipo == 'C')
                         std::cout << "C ";
@@ -105,6 +118,7 @@ void mostrar_mapa(int horaActual) {
 std::cout << "\n--- LISTA DE VEHICULOS ---\n";
 
 int hayVehiculos = 0;
+int total = 0;
 
 for (i = 0; i < FILAS; i++) {
     for (j = 0; j < COLS; j++) {
@@ -112,24 +126,35 @@ for (i = 0; i < FILAS; i++) {
         if (parqueadero[i][j].ocupado == 1) {
 
             hayVehiculos = 1;
+            total++;
 
             int entrada = parqueadero[i][j].horaEntrada;
 
+            std::cout << "[" << i << "," << j << "]: "
+                      << parqueadero[i][j].placa;
+
+            if (parqueadero[i][j].tipo == 'C')
+                std::cout << " | Carro";
+            else
+                std::cout << " | Moto";
+
+            std::cout << " | Entrada: " << entrada;
+
             if (horaActual < entrada) {
-                std::cout << "[" << i << "," << j << "]: "
-                          << parqueadero[i][j].placa
-                          << " | Tiempo: invalido\n";
+                std::cout << " | Tiempo: invalido\n";
             } else {
                 int tiempo = horaActual - entrada;
-
-                std::cout << "[" << i << "," << j << "]: "
-                          << parqueadero[i][j].placa
-                          << " | Tiempo: " << tiempo << " horas\n";
+                std::cout << " | Tiempo: " << tiempo << " horas\n";
             }
         }
     }
 }
 
+if (!hayVehiculos) {
+    std::cout << "No hay vehiculos en el parqueadero\n";
+} else {
+    std::cout << "\nTotal vehiculos: " << total << std::endl;
+}
 // SI NO HAY VEHICULOS
 if (!hayVehiculos) {
   std::cout << "No hay vehiculos en el parqueadero\n";

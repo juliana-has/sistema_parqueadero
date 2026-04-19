@@ -2,7 +2,7 @@
 
 #define FILAS 16
 #define COLS 16
-#define MAX_HIST 100
+#define MAX_HIST 100 //maximo historial que se puede guardar
 
 struct Vehiculo {
     char placa[10];

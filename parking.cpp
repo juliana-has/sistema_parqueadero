@@ -147,7 +147,33 @@ std::cout << " | Tiempo: " << tiempo << " horas\n";
         std::cout << "\nTotal vehiculos: " << total << std::endl;
     }
 }
+int carros = 0, motos = 0, totalEspacios = 0;
 
+for (i = 0; i < FILAS; i++) {
+    for (j = 0; j < COLS; j++) {
+
+        if (mapa[i][j] == 'C' || mapa[i][j] == 'M')
+            totalEspacios++;
+
+        if (parqueadero[i][j].ocupado == 1) {
+            if (parqueadero[i][j].tipo == 'C')
+                carros++;
+            else
+                motos++;
+        }
+    }
+}
+
+int ocupados = carros + motos;
+
+std::cout << "Carros: " << carros
+          << " | Motos: " << motos << std::endl;
+
+if (totalEspacios > 0) {
+    std::cout << "Ocupacion: "
+              << (ocupados * 100) / totalEspacios
+              << "%\n";
+}
 // VALIDACIONES
 int longitud(char placa[]) {
     int i = 0;
@@ -252,6 +278,7 @@ void ingresarVehiculo(Vehiculo *v) {
 int asignarEspacio(int *fila, int *col, char tipoVehiculo) {
     int i, j;
 
+    // PRIMER INTENTO: su tipo
     for (i = 0; i < FILAS; i++) {
         for (j = 0; j < COLS; j++) {
 
@@ -267,9 +294,23 @@ int asignarEspacio(int *fila, int *col, char tipoVehiculo) {
             }
         }
     }
+
+    // SEGUNDO INTENTO: moto usa espacio de carro
+    if (tipoVehiculo == 'M') {
+        for (i = 0; i < FILAS; i++) {
+            for (j = 0; j < COLS; j++) {
+
+                if (parqueadero[i][j].ocupado == 0 && mapa[i][j] == 'C') {
+                    *fila = i;
+                    *col = j;
+                    return 1;
+                }
+            }
+        }
+    }
+
     return 0;
 }
-
 // CONTAR DISPONIBLES
 int contarDisponibles() {
     int i, j, libres = 0;

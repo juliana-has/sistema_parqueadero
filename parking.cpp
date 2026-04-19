@@ -68,11 +68,14 @@ void inicio() {
 void mostrar_mapa(int horaActual) {
     int i, j;
 
-    if (horaActual < 0 || horaActual > 23) {
-        std::cout << "Hora invalida\n";
-        return;
-    }
+    int tiempo;
 
+if (horaActual >= entrada)
+    tiempo = horaActual - entrada;
+else
+    tiempo = (24 - entrada) + horaActual;
+
+std::cout << " | Tiempo: " << tiempo << " horas\n";
     for (i = 0; i < FILAS; i++) {
         for (j = 0; j < COLS; j++) {
 
@@ -175,8 +178,6 @@ int placaValida(char placa[]) {
     return 1;
 }
 
-    return tieneLetra && tieneNumero;
-}
 
 // BUSCAR
 int buscarVehiculo(char placa[], int *fila, int *col) {

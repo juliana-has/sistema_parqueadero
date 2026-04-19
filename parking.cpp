@@ -249,19 +249,15 @@ int asignar(int *fi,int *co,char tipo){
 int calcularPago(int e,int s,char tipo){
 
     int t = s - e;
-
     if(t <= 0) t += 24;
 
-    int tarifa; 
+    int tarifa = (tipo=='C') ? 3000 : 2000;
 
-    if(tipo == 'C')
-        tarifa = 80;  
-    else
-        tarifa = 75; 
+    int pago = t * tarifa;
 
-    if(t > 5) tarifa -= 10;
+    if(pago > 20000) pago = 20000; 
 
-    return t * tarifa;
+    return pago;
 }
 
 // HISTORIAL

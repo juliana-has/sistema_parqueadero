@@ -47,9 +47,10 @@ void inicio() {
             parqueadero[i][j].ocupado=0;
             parqueadero[i][j].placa[0]='\0';
 
-            if(i==0||i==FILAS-1||j==0||j==COLS-1) mapa[i][j]='W';
-            else if(i==1&&j==1) mapa[i][j]='E';
-            else if(i==1&&j==COLS-2) mapa[i][j]='S';
+            if(i==0 && j==1) mapa[i][j]='E';
+            else if(i==0 && j==COLS-2) mapa[i][j]='S';
+            else if(i==0||i==FILAS-1||j==0||j==COLS-1)
+            mapa[i][j]='W';
             else if(j%3==0||i%2==0) mapa[i][j]='V';
             else mapa[i][j]=(i+j)%2==0?'C':'M';
         }
@@ -75,21 +76,30 @@ void mostrar_mapa(int hora){
 
     std::cout<<"\n========= PARQUEADERO =========\n\n";
 
-    std::cout<<"   ";
-    for(int j=0;j<COLS;j++) std::cout<<j%10<<"  ";
+    // COLUMNAS
+    std::cout<<"    ";
+    for(int j=0;j<COLS;j++){
+        if(j<10) std::cout<<" "<<j<<" ";
+        else std::cout<<j<<" ";
+    }
     std::cout<<"\n";
 
     for(int i=0;i<FILAS;i++){
 
-        if(i<10) std::cout<<" "<<i<<" ";
-        else std::cout<<i<<" ";
+        // FILAS
+        if(i<10) std::cout<<" "<<i<<"  ";
+        else std::cout<<i<<"  ";
 
         for(int j=0;j<COLS;j++){
 
-            if(mapa[i][j]=='W') std::cout<<"##";
-            else if(mapa[i][j]=='V') std::cout<<"  ";
-            else if(mapa[i][j]=='E') std::cout<<"EN";
-            else if(mapa[i][j]=='S') std::cout<<"SA";
+            // TODO ocupa 3 espacios
+            if(mapa[i][j]=='W') std::cout<<"###";
+
+            else if(mapa[i][j]=='V') std::cout<<"   ";
+
+            else if(mapa[i][j]=='E') std::cout<<" EN ";
+
+            else if(mapa[i][j]=='S') std::cout<<" SA ";
 
             else {
                 if(parqueadero[i][j].ocupado){
@@ -106,14 +116,17 @@ void mostrar_mapa(int hora){
                 }
             }
         }
+
         std::cout<<"\n";
     }
 
-    std::cout<<"\nLeyenda:\n";
-    std::cout<<" c  = libre carro\n";
-    std::cout<<" m  = libre moto\n";
+    std::cout<<"\nque es?:\n";
+    std::cout<<" c  = carro libre\n";
+    std::cout<<" m  = moto libre\n";
     std::cout<<"[C] = carro ocupado\n";
     std::cout<<"[M] = moto ocupada\n";
+    std::cout<<"### = muro\n";
+    std::cout<<"EN  = entrada | SA = salida\n";
 }
 
 // VALIDACION

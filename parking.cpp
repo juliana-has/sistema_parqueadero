@@ -36,7 +36,7 @@ char detectarTipo(char placa[]) {
         return 'M';
 }
 
-// INICIALIZAR
+// Estructura
 void inicio() {
     int i, j;
 

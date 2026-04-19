@@ -129,8 +129,11 @@ for (i = 0; i < FILAS; i++) {
 
 // SI NO HAY VEHICULOS
 if (!hayVehiculos) {
-    std::cout << "No hay vehiculos en el parqueadero\n";
+  std::cout << "No hay vehiculos en el parqueadero\n";
 }
+   
+}
+
 // validacion de placa
 int longitud(char placa[]) {
     int i = 0;

@@ -70,7 +70,19 @@ void mostrarRuta(int fi,int co){
 void mostrar_mapa(int hora){
     std::cout<<"\n========= PARQUEADERO =========\n\n";
 
+    // NUMEROS DE COLUMNAS
+    std::cout<<"   ";
+    for(int j=0;j<COLS;j++) std::cout<<j%10<<"  ";
+    std::cout<<"\n";
+
     for(int i=0;i<FILAS;i++){
+
+        // NUMERO DE FILA
+        if(i<10) std::cout<<" "<<i<<" ";
+        else std::cout<<i<<" ";
+
+        std::cout<<"||";
+
         for(int j=0;j<COLS;j++){
 
             if(mapa[i][j]=='W') std::cout<<"##";
@@ -79,18 +91,32 @@ void mostrar_mapa(int hora){
             else if(mapa[i][j]=='S') std::cout<<"SA";
 
             else {
-                if(parqueadero[i][j].ocupado)
-                    std::cout<<parqueadero[i][j].tipo<<" ";
-                else
-                    std::cout<<(mapa[i][j]=='C'?"c ":"m ");
+                if(parqueadero[i][j].ocupado){
+                    if(parqueadero[i][j].tipo=='C')
+                        std::cout<<"[C]";
+                    else
+                        std::cout<<"[M]";
+                }
+                else{
+                    if(mapa[i][j]=='C')
+                        std::cout<<" c ";
+                    else
+                        std::cout<<" m ";
+                }
             }
         }
-        std::cout<<"\n";
+
+        std::cout<<"||\n";
     }
 
-    std::cout<<"\nLeyenda: c libre | m libre | C carro | M moto\n";
+    std::cout<<"\n=========== LISTA ===========\n";
+    std::cout<<" c  = libre carro\n";
+    std::cout<<" m  = libre moto\n";
+    std::cout<<"[C] = carro ocupado\n";
+    std::cout<<"[M] = moto ocupada\n";
+    std::cout<<"##  = muro\n";
+    std::cout<<"EN  = entrada | SA = salida\n";
 }
-
 // VALIDACION
 int placaValida(char p[]){
     if(p[0]<'A'||p[0]>'Z') return 0;

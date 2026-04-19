@@ -98,31 +98,39 @@ void mostrar_mapa(int horaActual) {
     std::cout << "\n[] Libre  C Carro  M Moto\n";
 
     // LISTA
-    std::cout << "\n--- LISTA DE VEHICULOS ---\n";
+   // LISTA
+std::cout << "\n--- LISTA DE VEHICULOS ---\n";
 
-    for (i = 0; i < FILAS; i++) {
-        for (j = 0; j < COLS; j++) {
+int hayVehiculos = 0;
 
-            if (parqueadero[i][j].ocupado == 1) {
+for (i = 0; i < FILAS; i++) {
+    for (j = 0; j < COLS; j++) {
 
-                int entrada = parqueadero[i][j].horaEntrada;
+        if (parqueadero[i][j].ocupado == 1) {
 
-                if (horaActual < entrada) {
-                    std::cout << "[" << i << "," << j << "]: "
-                              << parqueadero[i][j].placa
-                              << " | Tiempo: invalido\n";
-                } else {
-                    int tiempo = horaActual - entrada;
+            hayVehiculos = 1;
 
-                    std::cout << "[" << i << "," << j << "]: "
-                              << parqueadero[i][j].placa
-                              << " | Tiempo: " << tiempo << " horas\n";
-                }
+            int entrada = parqueadero[i][j].horaEntrada;
+
+            if (horaActual < entrada) {
+                std::cout << "[" << i << "," << j << "]: "
+                          << parqueadero[i][j].placa
+                          << " | Tiempo: invalido\n";
+            } else {
+                int tiempo = horaActual - entrada;
+
+                std::cout << "[" << i << "," << j << "]: "
+                          << parqueadero[i][j].placa
+                          << " | Tiempo: " << tiempo << " horas\n";
             }
         }
     }
 }
 
+// SI NO HAY VEHICULOS
+if (!hayVehiculos) {
+    std::cout << "No hay vehiculos en el parqueadero\n";
+}
 // validacion de placa
 int longitud(char placa[]) {
     int i = 0;
@@ -315,11 +323,10 @@ int main() {
                 std::cout << "Hora salida: ";
                 std::cin >> salida;
 
-                if (salida < parqueadero[i][j].horaEntrada) {
-                    std::cout << "Hora invalida\n";
-                    continue;
-                }
-
+        if (salida < 0 || salida > 23 || salida < parqueadero[i][j].horaEntrada) {
+            std::cout << "Hora invalida\n";
+             continue;
+}
                 pago = calcularPago(
                     parqueadero[i][j].horaEntrada,
                     salida,

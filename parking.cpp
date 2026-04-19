@@ -265,16 +265,21 @@ void ingresarVehiculo(Vehiculo *v) {
 }
 
 // ASIGNAR
-int asignarEspacio(int *fila, int *col) {
+int asignarEspacio(int *fila, int *col, char tipoVehiculo) {
     int i, j;
 
     for (i = 0; i < FILAS; i++) {
         for (j = 0; j < COLS; j++) {
 
-            if (mapa[i][j] == 'L' && parqueadero[i][j].ocupado == 0) {
-                *fila = i;
-                *col = j;
-                return 1;
+            if (parqueadero[i][j].ocupado == 0) {
+
+                if ((tipoVehiculo == 'C' && mapa[i][j] == 'C') ||
+                    (tipoVehiculo == 'M' && mapa[i][j] == 'M')) {
+
+                    *fila = i;
+                    *col = j;
+                    return 1;
+                }
             }
         }
     }

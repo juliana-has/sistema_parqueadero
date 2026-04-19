@@ -38,7 +38,7 @@ char detectarTipo(char placa[]) {
     int i = 0;
     while (placa[i] != '\0') i++;
 
-    if(i == 0) return 'C'; 
+    if(i == 0) return 'C'; // seguridad
 
     return (placa[i-1] >= '0' && placa[i-1] <= '9') ? 'C' : 'M';
 }
@@ -115,13 +115,32 @@ void mostrar_mapa(int hora){
         std::cout<<"\n";
     }
 
-    std::cout<<"\nque es?:\n";
+    std::cout<<"\nQUE ES:\n";
     std::cout<<" c  = carro libre\n";
     std::cout<<" m  = moto libre\n";
     std::cout<<"[C] = carro ocupado\n";
     std::cout<<"[M] = moto ocupada\n";
     std::cout<<"### = muro\n";
     std::cout<<"EN  = entrada | SA = salida\n";
+    std::cout<<"\n=== DETALLES ===\n";
+
+for(int i=0;i<FILAS;i++){
+    for(int j=0;j<COLS;j++){
+        if(parqueadero[i][j].ocupado){
+
+            int entrada = parqueadero[i][j].horaEntrada;
+
+            int tiempo = (hora >= entrada) 
+                       ? (hora - entrada) 
+                       : (24 - entrada + hora);
+
+            std::cout<<"["<<i<<","<<j<<"] "
+                     << parqueadero[i][j].placa
+                     << " | Entrada: "<<entrada
+                     << " | Tiempo: "<<tiempo<<"h\n";
+        }
+    }
+}
 }
 
 // VALIDACION
@@ -135,17 +154,24 @@ int placaValida(char p[]){
 
     if(longitud(p) != 6) return 0; 
 
-    if(p[0]<'A'||p[0]>'Z') return 0;
-    if(p[1]<'A'||p[1]>'Z') return 0;
-    if(p[2]<'A'||p[2]>'Z') return 0;
+    for(int i = 0; i < 3; i++){
+        if(p[i] < 'A' || p[i] > 'Z') return 0;
+    }
 
-    if(p[3]<'0'||p[3]>'9') return 0;
-    if(p[4]<'0'||p[4]>'9') return 0;
-    if(p[5]<'0'||p[5]>'9') return 0;
+    if(p[3]>='0' && p[3]<='9' &&
+       p[4]>='0' && p[4]<='9' &&
+       p[5]>='0' && p[5]<='9'){
+        return 1;
+    }
 
-    return 1;
+    if(p[3]>='0' && p[3]<='9' &&
+       p[4]>='0' && p[4]<='9' &&
+       p[5]>='A' && p[5]<='Z'){
+        return 1;
+    }
+
+    return 0;
 }
-
 // BUSCAR
 int buscarVehiculo(char placa[], int *fi,int *co){
     for(int i=0;i<FILAS;i++){
@@ -221,13 +247,21 @@ int asignar(int *fi,int *co,char tipo){
 
 // TARIFA
 int calcularPago(int e,int s,char tipo){
-    int t=(s>=e)?(s-e):(24-e+s);
 
-    int tarifa=(tipo=='C')?80:75;
+    int t = s - e;
 
-    if(t>5) tarifa-=10;
+    if(t <= 0) t += 24;
 
-    return t*tarifa;
+    int tarifa; // 🔥 FALTABA ESTO
+
+    if(tipo == 'C')
+        tarifa = 80;  
+    else
+        tarifa = 75; 
+
+    if(t > 5) tarifa -= 10;
+
+    return t * tarifa;
 }
 
 // HISTORIAL

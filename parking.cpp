@@ -279,7 +279,7 @@ int main() {
     inicio();
 
     do {
-        std::cout << "\n1. Ingresar\n2. Mostrar\n3. Retirar\n4. Buscar\n5. Salir\n";
+        std::cout << "\n1. Ingresar\n2. Mostrar\n3. Retirar\n4. Salir\n";
         std::cout << "Espacios libres: " << contarDisponibles() << std::endl;
 
         std::cin >> opcion;
@@ -335,20 +335,7 @@ int main() {
             }
         }
 
-        else if (opcion == 4) {
-            char placaBuscar[10];
-
-            std::cout << "Placa: ";
-            std::cin >> placaBuscar;
-
-            if (buscarVehiculo(placaBuscar, &i, &j)) {
-                std::cout << "Vehiculo en [" << i << "][" << j << "]\n";
-            } else {
-                std::cout << "Vehiculo no encontrado\n";
-            }
-        }
-
-    } while (opcion != 5);
+    } while (opcion != 4);
 
     return 0;
 }

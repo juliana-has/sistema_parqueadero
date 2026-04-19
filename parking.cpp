@@ -54,8 +54,12 @@ void inicio() {
                 mapa[i][j] = 'S';
             else if (j % 3 == 0 || i % 2 == 0)
                 mapa[i][j] = 'V';
-            else
-                mapa[i][j] = 'L';
+           else {
+    if ((i + j) % 2 == 0)
+        mapa[i][j] = 'C'; // espacio carro
+    else
+        mapa[i][j] = 'M'; // espacio moto
+}
         }
     }
 }

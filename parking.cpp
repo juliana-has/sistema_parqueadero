@@ -138,7 +138,7 @@ int longitud(char p[]){
 
 int placaValida(char p[]){
 
-    if(longitud(p) != 6) return 0; // 🔥 CLAVE
+    if(longitud(p) != 6) return 0; 
 
     if(p[0]<'A'||p[0]>'Z') return 0;
     if(p[1]<'A'||p[1]>'Z') return 0;

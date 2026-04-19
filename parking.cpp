@@ -257,7 +257,7 @@ int contarDisponibles() {
 }
 
 // SALIda de  VEHICULO
-void SALEVehiculo(Vehiculo *v) {
+void salidaVehiculo(Vehiculo *v) {
     v->ocupado = 0;
     v->placa[0] = '\0';
 }
@@ -328,7 +328,7 @@ int main() {
 
                 std::cout << "Pago: " << pago << std::endl;
 
-                SALEVehiculo(&parqueadero[i][j]);
+                salidaVehiculo(&parqueadero[i][j]);
 
             } else {
                 std::cout << "Vehiculo no encontrado\n";

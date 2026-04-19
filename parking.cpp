@@ -37,7 +37,7 @@ char detectarTipo(char placa[]) {
         return 'M'; // moto
 }
 
-// INICIALIZAR PARQUEADERO
+// ESTRUCTURA PARQUEADERO
 void inicio() {
     int i, j;
 
@@ -101,7 +101,18 @@ void mostrar_mapa() {
 
     std::cout << "\n[] Libre  C Carro  M Moto\n\n";
 }
+std::cout << "\n--- LISTA DE VEHICULOS ---\n";
 
+for (int i = 0; i < FILAS; i++) {
+    for (int j = 0; j < COLS; j++) {
+
+        if (parqueadero[i][j].ocupado == 1) {
+            std::cout << "[" << i << "," << j << "]: "
+                      << parqueadero[i][j].placa << std::endl;
+        }
+
+    }
+}
 // VALIDACIONES
 int longitud(char placa[]) {
     int i = 0;

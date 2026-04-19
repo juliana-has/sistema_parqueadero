@@ -61,8 +61,8 @@ void inicio() {
 void mostrarRuta(int fi,int co){
     std::cout<<"\nRuta aproximada:\n";
     std::cout<<"ENTRADA -> ";
-    for(int j=1;j<=co;j++) std::cout<<"->";
-    for(int i=1;i<=fi;i++) std::cout<<"v";
+   for(int j=1;j<=co;j++) std::cout<<"->";
+for(int i=1;i<=fi;i++) std::cout<<"V";
     std::cout<<" ["<<fi<<","<<co<<"]\n";
 }
 

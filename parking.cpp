@@ -60,7 +60,7 @@ void inicio() {
     }
 }
 
-// MOSTRAR MAPA + LISTA
+// MOSTRAR MAPA 
 void mostrar_mapa(int horaActual) {
     int i, j;
 
@@ -155,7 +155,7 @@ int placaValida(char placa[]) {
     return tieneLetra && tieneNumero;
 }
 
-// BUSCAR
+// placa duplicada
 int buscarVehiculo(char placa[], int *fila, int *col) {
     int i, j, k, igual;
 
@@ -242,7 +242,7 @@ int asignarEspacio(int *fila, int *col) {
     return 0;
 }
 
-// CONTAR
+// CONTAR espacios
 int contarDisponibles() {
     int i, j, libres = 0;
 
@@ -256,7 +256,7 @@ int contarDisponibles() {
     return libres;
 }
 
-// SALIR VEHICULO
+// SALIda de  VEHICULO
 void SALEVehiculo(Vehiculo *v) {
     v->ocupado = 0;
     v->placa[0] = '\0';

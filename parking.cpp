@@ -161,16 +161,19 @@ int esNumero(char c) {
 }
 
 int placaValida(char placa[]) {
-    int i = 0, tieneLetra = 0, tieneNumero = 0;
 
     if (longitud(placa) != 6) return 0;
 
-    while (placa[i] != '\0') {
-        if (esLetra(placa[i])) tieneLetra = 1;
-        else if (esNumero(placa[i])) tieneNumero = 1;
-        else return 0;
-        i++;
-    }
+    // 3 letras
+    if (!(esLetra(placa[0]) && esLetra(placa[1]) && esLetra(placa[2])))
+        return 0;
+
+    // 3 numeros
+    if (!(esNumero(placa[3]) && esNumero(placa[4]) && esNumero(placa[5])))
+        return 0;
+
+    return 1;
+}
 
     return tieneLetra && tieneNumero;
 }
@@ -287,14 +290,19 @@ void salidaVehiculo(Vehiculo *v) {
 
 // PAGO
 int calcularPago(int entrada, int salida, char tipo) {
-    int tiempo = salida - entrada;
+    int tiempo;
+
+    // MISMO DIA
+    if (salida >= entrada)
+        tiempo = salida - entrada;
+    else
+        tiempo = (24 - entrada) + salida; // CRUCE DE DIA
 
     if (tipo == 'C')
         return tiempo * 60 * 80;
     else
         return tiempo * 60 * 75;
 }
-
 // MAIN
 int main() {
     int opcion, i, j, salida, pago;
@@ -339,12 +347,11 @@ int main() {
 
                 std::cout << "Hora salida: ";
                 std::cin >> salida;
-
-                if (salida < 0 || salida > 23 || salida < parqueadero[i][j].horaEntrada) {
-                    std::cout << "Hora invalida\n";
-                    continue;
-                }
-
+                
+      if (salida < 0 || salida > 23) {
+           std::cout << "Hora invalida\n";
+            continue;
+        }
                 pago = calcularPago(
                     parqueadero[i][j].horaEntrada,
                     salida,

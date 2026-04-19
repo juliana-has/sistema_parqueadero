@@ -10,8 +10,18 @@ struct Vehiculo {
     char tipo;
 };
 
+struct Historial {
+    char placa[10];
+    int entrada;
+    int salida;
+    int pago;
+};
+
 Vehiculo parqueadero[FILAS][COLS];
 char mapa[FILAS][COLS];
+
+Historial registros[200];
+int totalRegistros = 0;
 
 // COPIAR
 void copiarArreglo(char destino[], char origen[]) {
@@ -53,6 +63,32 @@ void inicio() {
     }
 }
 
+// RUTA VISUAL
+void mostrarRuta(int fila, int col) {
+    std::cout << "Ruta: EN -> ";
+    for (int j = 1; j <= col; j++) {
+        std::cout << ".. -> ";
+    }
+    std::cout << "[" << fila << "," << col << "]\n";
+}
+
+// MOSTRAR HISTORIAL
+void mostrarHistorial() {
+    if (totalRegistros == 0) {
+        std::cout << "No hay historial\n";
+        return;
+    }
+
+    std::cout << "\n--- HISTORIAL ---\n";
+
+    for (int k = 0; k < totalRegistros; k++) {
+        std::cout << registros[k].placa
+                  << " | Entrada: " << registros[k].entrada
+                  << " | Salida: " << registros[k].salida
+                  << " | Pago: " << registros[k].pago << std::endl;
+    }
+}
+
 // MOSTRAR MAPA
 void mostrar_mapa(int horaActual) {
 
@@ -61,18 +97,16 @@ void mostrar_mapa(int horaActual) {
         return;
     }
 
-    // MAPA
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLS; j++) {
 
             if (mapa[i][j] == 'V') std::cout << "..";
 
             else if (mapa[i][j] == 'C' || mapa[i][j] == 'M') {
-                if (parqueadero[i][j].ocupado) {
+                if (parqueadero[i][j].ocupado)
                     std::cout << parqueadero[i][j].tipo << " ";
-                } else {
+                else
                     std::cout << (mapa[i][j] == 'C' ? "c " : "m ");
-                }
             }
 
             else if (mapa[i][j] == 'E') std::cout << "EN";
@@ -83,13 +117,10 @@ void mostrar_mapa(int horaActual) {
 
     std::cout << "\n--- LISTA ---\n";
 
-    int total = 0, carros = 0, motos = 0, totalEspacios = 0;
+    int total = 0;
 
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLS; j++) {
-
-            if (mapa[i][j] == 'C' || mapa[i][j] == 'M')
-                totalEspacios++;
 
             if (parqueadero[i][j].ocupado) {
 
@@ -105,24 +136,13 @@ void mostrar_mapa(int horaActual) {
 
                 std::cout << "[" << i << "," << j << "] "
                           << parqueadero[i][j].placa
-                          << " | " << (parqueadero[i][j].tipo == 'C' ? "Carro" : "Moto")
                           << " | " << tiempo << "h\n";
-
-                if (parqueadero[i][j].tipo == 'C') carros++;
-                else motos++;
             }
         }
     }
 
     if (total == 0)
         std::cout << "No hay vehiculos\n";
-    else {
-        std::cout << "\nTotal: " << total << std::endl;
-        std::cout << "Carros: " << carros << " | Motos: " << motos << std::endl;
-
-        if (totalEspacios > 0)
-            std::cout << "Ocupacion: " << (total * 100) / totalEspacios << "%\n";
-    }
 }
 
 // VALIDACIONES
@@ -143,13 +163,8 @@ int esNumero(char c) {
 int placaValida(char placa[]) {
     if (longitud(placa) != 6) return 0;
 
-    if (!(esLetra(placa[0]) && esLetra(placa[1]) && esLetra(placa[2])))
-        return 0;
-
-    if (!(esNumero(placa[3]) && esNumero(placa[4]) && esNumero(placa[5])))
-        return 0;
-
-    return 1;
+    return esLetra(placa[0]) && esLetra(placa[1]) && esLetra(placa[2]) &&
+           esNumero(placa[3]) && esNumero(placa[4]) && esNumero(placa[5]);
 }
 
 // BUSCAR
@@ -222,11 +237,9 @@ int asignarEspacio(int *fila, int *col, char tipoVehiculo) {
         }
     }
 
-    // moto usa carro
     if (tipoVehiculo == 'M') {
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLS; j++) {
-
                 if (!parqueadero[i][j].ocupado && mapa[i][j] == 'C') {
                     *fila = i;
                     *col = j;
@@ -239,12 +252,37 @@ int asignarEspacio(int *fila, int *col, char tipoVehiculo) {
     return 0;
 }
 
-// PAGO
-int calcularPago(int entrada, int salida, char tipo) {
-    int tiempo = (salida >= entrada) ? (salida - entrada)
-                                    : (24 - entrada + salida);
+// SALIDA
+void salidaVehiculo(Vehiculo *v) {
+    v->ocupado = 0;
+    v->placa[0] = '\0';
+}
 
-    return (tipo == 'C') ? tiempo * 80 : tiempo * 75;
+// TARIFA INTELIGENTE
+int calcularPago(int entrada, int salida, char tipo) {
+
+    int tiempo;
+
+    if (salida >= entrada)
+        tiempo = salida - entrada;
+    else
+        tiempo = (24 - entrada) + salida;
+
+    int tarifa;
+
+    if (tipo == 'C') {
+        if (entrada >= 18 && entrada <= 22)
+            tarifa = 100;
+        else
+            tarifa = 80;
+    } else {
+        if (entrada >= 18 && entrada <= 22)
+            tarifa = 90;
+        else
+            tarifa = 75;
+    }
+
+    return tiempo * 60 * tarifa;
 }
 
 // MAIN
@@ -254,7 +292,7 @@ int main() {
     inicio();
 
     do {
-        std::cout << "\n1. Ingresar\n2. Mostrar\n3. Retirar\n4. Salir\n";
+        std::cout << "\n1. Ingresar\n2. Mostrar\n3. Retirar\n4. Historial\n5. Salir\n";
         std::cin >> opcion;
 
         if (opcion == 1) {
@@ -264,6 +302,8 @@ int main() {
             if (asignarEspacio(&i, &j, temp.tipo)) {
                 parqueadero[i][j] = temp;
                 std::cout << "Asignado [" << i << "," << j << "]\n";
+
+                mostrarRuta(i, j); // 👈 ruta visual
             }
         }
 
@@ -280,6 +320,7 @@ int main() {
             std::cin >> placa;
 
             if (buscarVehiculo(placa, &i, &j)) {
+
                 std::cout << "Hora salida: ";
                 std::cin >> salida;
 
@@ -296,11 +337,22 @@ int main() {
 
                 std::cout << "Pago: " << pago << std::endl;
 
+                // GUARDAR HISTORIAL
+                copiarArreglo(registros[totalRegistros].placa, parqueadero[i][j].placa);
+                registros[totalRegistros].entrada = parqueadero[i][j].horaEntrada;
+                registros[totalRegistros].salida = salida;
+                registros[totalRegistros].pago = pago;
+                totalRegistros++;
+
                 salidaVehiculo(&parqueadero[i][j]);
             }
         }
 
-    } while (opcion != 4);
+        else if (opcion == 4) {
+            mostrarHistorial();
+        }
+
+    } while (opcion != 5);
 
     return 0;
 }

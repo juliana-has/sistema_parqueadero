@@ -73,7 +73,7 @@ void mostrar_mapa(int hora){
     for(int i=0;i<FILAS;i++){
         for(int j=0;j<COLS;j++){
 
-            if(mapa[i][j]=='W') std::cout<<"██";
+            if(mapa[i][j]=='W') std::cout<<"##";
             else if(mapa[i][j]=='V') std::cout<<"  ";
             else if(mapa[i][j]=='E') std::cout<<"EN";
             else if(mapa[i][j]=='S') std::cout<<"SA";

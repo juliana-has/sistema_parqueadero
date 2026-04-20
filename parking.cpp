@@ -123,7 +123,34 @@ void mostrar_mapa(int hora){
     std::cout<<"### = muro\n";
     std::cout<<"EN  = entrada | SA = salida\n";
     std::cout<<"\n=== DETALLES ===\n";
+    
+// OCUPACION
+int ocupados = 0;
+int libres = 0;
 
+for(int i=0;i<FILAS;i++){
+    for(int j=0;j<COLS;j++){
+
+        // solo contar espacios válidos
+        if(mapa[i][j]=='C' || mapa[i][j]=='M'){
+
+            if(parqueadero[i][j].ocupado)
+                ocupados++;
+            else
+                libres++;
+        }
+    }
+}
+
+int total = ocupados + libres;
+
+std::cout<<"\n=== OCUPACION ===\n";
+std::cout<<"Ocupados: "<<ocupados<<"\n";
+std::cout<<"Libres: "<<libres<<"\n";
+
+if(total > 0){
+    std::cout<<"Porcentaje: "<<(ocupados * 100 / total)<<"%\n";
+}
 for(int i=0;i<FILAS;i++){
     for(int j=0;j<COLS;j++){
         if(parqueadero[i][j].ocupado){
@@ -138,6 +165,31 @@ for(int i=0;i<FILAS;i++){
                      << parqueadero[i][j].placa
                      << " | Entrada: "<<entrada
                      << " | Tiempo: "<<tiempo<<"h\n";
+       int ocupados = 0;
+int libres = 0;
+
+for(int i=0;i<FILAS;i++){
+    for(int j=0;j<COLS;j++){
+
+        if(mapa[i][j]=='C' || mapa[i][j]=='M'){ 
+
+            if(parqueadero[i][j].ocupado)
+                ocupados++;
+            else
+                libres++;
+        }
+    }
+}
+
+std::cout<<"\n=== OCUPACION ===\n";
+std::cout<<"Ocupados: "<<ocupados<<"\n";
+std::cout<<"Libres: "<<libres<<"\n";
+
+int total = ocupados + libres;
+
+if(total > 0){
+    std::cout<<"Porcentaje: "<<(ocupados * 100 / total)<<"%\n";
+}     
         }
     }
 }

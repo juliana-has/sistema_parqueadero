@@ -31,6 +31,13 @@ la verdad no me daba el cerebrito para hacer un mapa bonito que se viera medio o
 Obviamente intentando entender que fue lo que se hizo.
 
 
+COMO COMPILAR?:
+EN WINDOWS 
+
+EN MAC 
+
+EN LINUX
+
 GRACIAS .
 
 

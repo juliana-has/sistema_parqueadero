@@ -32,6 +32,7 @@ Obviamente intentando entender que fue lo que se hizo.
 
 
 COMO COMPILAR?:
+
 EN WINDOWS 
 
 EN MAC 

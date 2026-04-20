@@ -45,7 +45,8 @@ Obviamente intentando entender que fue lo que se hizo.
 COMO COMPILAR?:
 
 EN WINDOWS 
-Opción 1: Usando MinGW
+
+Usando MinGW
 Instalar MinGW (o usar Code::Blocks que ya lo incluye)
 Abrir la terminal (CMD o PowerShell)
 Ir a la carpeta del proyecto:
@@ -58,7 +59,28 @@ o también todo se puede por visual studio
 
 EN LINUX
 
+Abrir la terminal
+Instalar g++ si no lo tienes:
+sudo apt update
+sudo apt install g++
+Ir a la carpeta del proyecto:
+cd ruta/del/proyecto
+Compilar:
+g++ main.cpp -o parqueadero
+Ejecutar:
+./parqueadero
+
 En Mac
+
+Abrir la terminal
+Instalar herramientas de desarrollo (si no están):
+xcode-select --install
+Ir a la carpeta del proyecto:
+cd ruta/del/proyecto
+Compilar:
+g++ main.cpp -o parqueadero
+Ejecutar:
+./parqueadero
 
 GRACIAS .
 

@@ -166,7 +166,7 @@ void mostrar_mapa(int hora){
     std::cout<<"Libres: "<<libres<<"\n";
 
     if(total > 0){
-        std::cout<<"Porcentaje: "<<(ocupados * 100 / total)<<"%\n";
+        std::cout<<"Porcentaje: "<<(double)ocupados * 100 / total<<"%\n"; 
     }
 }
 

@@ -32,6 +32,7 @@ y el tiempo que lleva el vehiculo
 Tambien muestra la ocupacion.
 
 Estas mejoras las pense mas por ahorrar tiempo y experiencia del que usa como tal el programa 
+
 Por ejemplo, al principio le habia puesto que los lugares los asignara uno mismo o sea manual y era super dificil porque si no sabes como son los numeros de las filas y las columnas no se podia asignar el lugar, asi que me parecio una buena idea que los asignara el sistema en orden, se le agrego lo de diferenciar entre carro y moto para que se vea mas organizado y tener cierto control de todo el parqueadero
 Se agrego una lista al momento de mostrar un mapa por lo mismo del control, es chevere porque muestra la placa, la ubicacion del vehiculo y cuanto lleva ahí.
 La validacion de la placa evita errores y lo hace mas realista.

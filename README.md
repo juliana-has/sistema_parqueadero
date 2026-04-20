@@ -45,10 +45,20 @@ Obviamente intentando entender que fue lo que se hizo.
 COMO COMPILAR?:
 
 EN WINDOWS 
-
-EN MAC 
+Opción 1: Usando MinGW
+Instalar MinGW (o usar Code::Blocks que ya lo incluye)
+Abrir la terminal (CMD o PowerShell)
+Ir a la carpeta del proyecto:
+cd ruta\del\proyecto
+Compilar:
+g++ main.cpp -o parqueadero
+Ejecutar:
+parqueadero.exe
+o también todo se puede por visual studio
 
 EN LINUX
+
+En Mac
 
 GRACIAS .
 
